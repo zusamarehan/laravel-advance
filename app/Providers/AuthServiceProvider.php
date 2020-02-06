@@ -30,6 +30,7 @@ class AuthServiceProvider extends ServiceProvider
         Passport::routes();
 
         Gate::define('create', 'App\Policies\ProductsPolicy@create');
+        Gate::define('delete', 'App\Policies\ProductsPolicy@delete');
 
     }
 }

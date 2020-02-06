@@ -61,5 +61,17 @@ class ProductsPolicy
         return $user->role === 1;
     }
 
+    /**
+     * Determine whether the user can delete the products.
+     *
+     * @param User $user
+     * @return mixed
+     */
+    public function delete(User $user)
+    {
+        //
+        return $user->role === 1;
+    }
+
 
 }

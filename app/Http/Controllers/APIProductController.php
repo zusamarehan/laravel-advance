@@ -7,6 +7,7 @@ use App\Http\Requests\StoreProducts;
 use App\Products;
 use App\Http\Resources\ProductResource as ProductResource;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class APIProductController extends Controller
@@ -56,5 +57,24 @@ class APIProductController extends Controller
         $product->save();
 
         return new ProductResource(Products::with('createdBy', 'updatedBy')->find($product->id));
+    }
+
+    /**
+     * @param Products $product
+     * @return JsonResponse
+     * @throws AuthorizationException
+     */
+    public function destroy(Products $product) {
+
+        $this->authorize('delete');
+
+        $status = $product->delete();
+        if($status) {
+            return response()
+                ->json(['msg' => 'Product Delete Successfully', 'status' => true]);
+        }
+
+        return response()
+            ->json(['msg' => 'Oops! Something went wrong!', 'status' => false]);
     }
 }
