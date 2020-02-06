@@ -30,7 +30,7 @@ class APIProductController extends Controller
      */
     public function show (Products $product) {
 
-        return new ProductResource(Products::with('createdBy', 'updatedBy')->find($product->id));
+        return new ProductResource($product->load('createdBy', 'updatedBy'));
 
     }
 
