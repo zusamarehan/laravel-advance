@@ -18,19 +18,18 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
-        $viewable = Gate::allows('view', Products::find($this->id));
 
         return [
             'id' => $this->id,
             'name' => $this->name,
             'desc' => $this->desc,
             'color' => $this->color,
-            'amount' => $this->when($viewable, $this->amount),
-            'available' => $this->available,
-            'createdBy' => $this->when($viewable, User::collection($this->whenLoaded('createdBy'))),
-            'updatedBy' => $this->when($viewable, User::collection($this->whenLoaded('updatedBy'))),
-            'createdAt' => $this->when($viewable, $this->created_at),
-            'updatedAt' => $this->when($viewable, $this->updated_at),
+            'amount' => $this->when($this->resource->viewColumns, $this->amount),
+            'available' => $this->when($this->resource->viewColumns, $this->available),
+            'createdBy' => $this->when($this->resource->viewColumns, User::collection($this->whenLoaded('createdBy'))),
+            'updatedBy' => $this->when($this->resource->viewColumns, User::collection($this->whenLoaded('updatedBy'))),
+            'createdAt' => $this->when($this->resource->viewColumns, $this->created_at),
+            'updatedAt' => $this->when($this->resource->viewColumns, $this->updated_at),
         ];
     }
 }

@@ -4,10 +4,19 @@ namespace App;
 
 use App\Events\ProductCreated;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Gate;
 
 class Products extends Model
 {
 
+
+    public $viewColumns = false;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->viewColumns = $this->viewable();
+    }
 
     /**
      * The event map for the model.
@@ -32,5 +41,13 @@ class Products extends Model
     public function updatedBy()
     {
         return $this->hasMany('App\User', 'id', 'updated_by');
+    }
+
+    /**
+     * @return bool
+     */
+    public function viewable()
+    {
+        return Gate::allows('view', $this);
     }
 }
