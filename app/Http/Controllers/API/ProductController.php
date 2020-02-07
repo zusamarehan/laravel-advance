@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductsStore;
 use App\Http\Requests\ProductsUpdate;
 use App\Products;
@@ -11,7 +12,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class APIProductController extends Controller
+class ProductController extends Controller
 {
     /**
      * Returns all the Products with Pagination

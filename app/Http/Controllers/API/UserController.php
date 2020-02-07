@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\User as UserResource;
 use App\User;
 use Illuminate\Http\Request;
 
-class APIUserController extends Controller
+class UserController extends Controller
 {
     /**
      * @param Request $request
