@@ -73,5 +73,20 @@ class ProductsPolicy
         return $user->role === 1;
     }
 
+    /**
+     * Determine whether the user can update product.
+     *
+     * @param User $user
+     * @param Products $products
+     * @return bool
+     *
+     * Allow when ->Product Created by or Has Full Access (Role 1)
+     */
+    public function update (User $user, Products $products) {
+
+        // if the user has created the product then allow
+        return ($products->created_by === $user->id || $user->role === 1);
+
+    }
 
 }

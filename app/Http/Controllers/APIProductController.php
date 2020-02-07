@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 
-use App\Http\Requests\StoreProducts;
+use App\Http\Requests\ProductsStore;
+use App\Http\Requests\ProductsUpdate;
 use App\Products;
 use App\Http\Resources\ProductResource as ProductResource;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -38,11 +39,11 @@ class APIProductController extends Controller
     /**
      * Creates a new product when the user is authorized
      *
-     * @param StoreProducts $request
+     * @param ProductsStore $request
      * @return ProductResource
      * @throws AuthorizationException
      */
-    public function store (StoreProducts $request) {
+    public function store (ProductsStore $request) {
 
         $this->authorize('create');
 
@@ -77,4 +78,26 @@ class APIProductController extends Controller
         return response()
             ->json(['msg' => 'Oops! Something went wrong!', 'status' => false]);
     }
+
+
+    /**
+     * @param Products $product
+     * @param ProductsUpdate $request
+     * @return ProductResource
+     * @throws AuthorizationException
+     */
+    public function update (Products $product, ProductsUpdate $request) {
+
+        $this->authorize('update', $product);
+
+        $request->merge([
+            'updated_by' => auth()->user()->id
+        ]);
+
+        $product->update($request->only(['name', 'desc', 'color', 'updated_by']));
+
+        return new ProductResource($product->load('createdBy', 'updatedBy'));
+
+    }
+
 }
